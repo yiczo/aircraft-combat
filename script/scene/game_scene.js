@@ -35,6 +35,13 @@ class GameScene extends Scene {
             let item = this.items[i]
             if (item instanceof Bullet) {
                 item.moveUp()
+                // if a bullet out of canvas, remove it
+                if (item.y + item.height <= 0) {
+                    let index = this.items.indexOf(item)
+                    if (index > -1) {
+                        this.items.splice(index, 1)
+                    }
+                }
             }
         }
     }
