@@ -54,6 +54,15 @@ class GameScene extends Scene {
         }
     }
 
+    addItem(item) {
+        let maxNumberOfItemsInThisScene = 10
+        if (this.items.length >= maxNumberOfItemsInThisScene) {
+            return
+        }
+
+        super.addItem(item)
+    }
+
     generateEnemy() {
         let self = this
         setTimeout(function() {

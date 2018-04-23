@@ -1,4 +1,4 @@
-var ActionType = {
+const ActionType = {
     KEYUP: 'keyup',
     HOLD: 'hold',
 }
