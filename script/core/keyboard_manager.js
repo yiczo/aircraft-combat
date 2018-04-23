@@ -22,14 +22,22 @@ class KeyboardManager {
         })
     }
 
-    registHoldAction(key, action) {
-        this.holdActions[key] = action
+    registAction(action) {
+        if (action.type == ActionType.KEYUP) {
+            this.registKeyUpAction(action.key, action.func)
+        } else if (action.type == ActionType.HOLD) {
+            this.registHoldAction(action.key, action.func)
+        }
     }
 
-    registKeyUpAction(key, action) {
+    registHoldAction(key, func) {
+        this.holdActions[key] = func
+    }
+
+    registKeyUpAction(key, func) {
         var listener = function(event) {
             if (event.key == key) {
-                action()
+                func()
             }
         }
 
