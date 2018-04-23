@@ -5,7 +5,7 @@ class GameScene extends Scene {
 
     setupItems() {
         this.aircraft = new Aircraft(0, 0, 5)
-        this.items.push(this.aircraft)
+        this.addItem(this.aircraft)
     }
 
     setupActions() {
@@ -25,24 +25,40 @@ class GameScene extends Scene {
         let shoot = new Action(ActionType.KEYUP, 'j', function() {
             let p = self.aircraft.positionShootFrom()
             let bullet = new Bullet(p.x, p.y)
-            self.items.push(bullet)
+            self.addItem(bullet)
         })
         this.actions = [moveUp, moveDown, moveLeft, moveRight, shoot]
     }
 
     update() {
+        this.generateEnemy()
+
         for (let i = this.items.length - 1; i >= 0; i--) {
             let item = this.items[i]
+
             if (item instanceof Bullet) {
                 item.moveUp()
-                // if a bullet out of canvas, remove it
-                if (item.y + item.height <= 0) {
-                    let index = this.items.indexOf(item)
-                    if (index > -1) {
-                        this.items.splice(index, 1)
-                    }
+                let isOutOfCanvas = (item.y + item.height <= 0)
+                if (isOutOfCanvas) {
+                    this.removeItem(item)
+                }
+            }
+
+            if (item instanceof Enemy) {
+                item.moveDown()
+                let isOutOfCanvas = (item.y > 500)
+                if (isOutOfCanvas) {
+                    this.removeItem(item)
                 }
             }
         }
+    }
+
+    generateEnemy() {
+        let self = this
+        setTimeout(function() {
+            let enemy = new Enemy(randomBetween(0, 500 - 25), (0 - 25))
+            self.addItem(enemy)
+        }, randomBetween(1, 1000000))
     }
 }
