@@ -4,7 +4,7 @@ class GameScene extends Scene {
     }
 
     setupItems() {
-        this.aircraft = new Aircraft(0, 0, 5)
+        this.aircraft = new Aircraft(500 * 0.5 - 30 * 0.5, 500 - 30, 5)
         this.addItem(this.aircraft)
     }
 
