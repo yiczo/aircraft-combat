@@ -42,20 +42,32 @@ class GameScene extends Scene {
                 if (isOutOfCanvas) {
                     this.removeItem(item)
                 }
-            }
-
-            if (item instanceof Enemy) {
+            } else if (item instanceof Enemy) {
                 item.moveDown()
                 let isOutOfCanvas = (item.y > 500)
                 if (isOutOfCanvas) {
                     this.removeItem(item)
+                }
+
+                // enemy collide with player or bullet
+                for (let i = this.items.length - 1; i >= 0; i--) {
+                    let element = this.items[i]
+                    if (element instanceof Aircraft) {
+                        if (collide(item, element)) {
+                            SceneManager.instance().loadScene(new EndScene())
+                        }
+                    } else if (element instanceof Bullet) {
+                        if (collide(item, element)) {
+                            this.removeItem(item)
+                        }
+                    }
                 }
             }
         }
     }
 
     addItem(item) {
-        let maxNumberOfItemsInThisScene = 10
+        let maxNumberOfItemsInThisScene = 20
         if (this.items.length >= maxNumberOfItemsInThisScene) {
             return
         }
